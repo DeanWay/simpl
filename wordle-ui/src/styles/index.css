@@ -69,3 +69,27 @@
   flex-direction: row;
   gap: 5px;
 }
+
+/* error message */
+.game-message {
+  height: 1em;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: black;
+  color: white;
+  opacity: 0;
+}
+
+.game-message.show {
+  animation: disappear 5s forwards;
+}
+
+@keyframes disappear {
+  0%   {opacity: 1;}
+  80%  {opacity: 1;}
+  100% {opacity: 0;}
+}

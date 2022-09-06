@@ -28,7 +28,7 @@ impl WordleGame {
         Self::new(dictionary, &secret_word)
     }
 
-    pub fn make_guess(&mut self, guess: &str) -> Result<(), &str> {
+    pub fn make_guess(&mut self, guess: &str) -> Result<(), &'static str> {
         if !self.dictionary.contains(guess) {
             return Err("Invalid word");
         }

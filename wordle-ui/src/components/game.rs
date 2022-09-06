@@ -17,6 +17,8 @@ pub struct App {
     current_guess: String,
     game: WordleGame,
     key_listener: Option<EventListener>,
+    game_message: Option<String>,
+    message_key: u8,
 }
 
 pub enum AppMessage {
@@ -26,10 +28,23 @@ pub enum AppMessage {
 }
 
 impl App {
-    fn handle_submit(&mut self) -> Result<(), &str> {
-        self.game.make_guess(&self.current_guess.to_lowercase())?;
-        self.current_guess = String::new();
-        Ok(())
+    fn handle_submit(&mut self) -> bool {
+        let s = self.game.secret_word().to_string();
+        match self.game.make_guess(&self.current_guess.to_lowercase()) {
+            Err(err) => {
+                self.set_message(err);
+            }
+            Ok(_) => {
+                self.current_guess = String::new();
+            }
+        };
+        if self.game.game_condition() == GameCondition::Win {
+            self.set_message("You Win!");
+        }
+        if self.game.game_condition() == GameCondition::Loss {
+            self.set_message(&s);
+        }
+        true
     }
 
     fn handle_add_letter(&mut self, c: char) -> bool {
@@ -54,6 +69,11 @@ impl App {
     fn still_playing(&self) -> bool {
         self.game.game_condition() == GameCondition::Playing
     }
+
+    fn set_message(&mut self, msg: &str) {
+        self.game_message.replace(msg.to_string());
+        self.message_key = self.message_key.wrapping_add(1);
+    }
 }
 
 impl Component for App {
@@ -66,6 +86,8 @@ impl Component for App {
             current_guess: String::from(""),
             game: WordleGame::new_with_random_secret_word(DICTIONARY),
             key_listener: None,
+            game_message: None,
+            message_key: 0,
         }
     }
 
@@ -74,21 +96,20 @@ impl Component for App {
         match msg {
             AddLetter(c) => self.handle_add_letter(c),
             DeleteLetter => self.handle_delete(),
-            Submit => match self.handle_submit() {
-                Ok(_) => true,
-                Err(err) => {
-                    log::info!("{}", err);
-                    false
-                }
-            },
+            Submit => self.handle_submit(),
         }
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
         let guesses: Guesses = self.game.game_state().guesses.clone();
-
         html! {
             <div>
+                <div
+                    key={self.message_key}
+                    class={classes!("game-message", self.game_message.as_ref().map(|_| "show"))}
+                >
+                    {self.game_message.as_ref().unwrap_or(&"".to_string())}
+                </div>
                 <GuessBoard
                     max_word_length={MAX_WORD_LENGTH}
                     max_guesses={MAX_GUESSES}
