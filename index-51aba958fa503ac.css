@@ -1,0 +1,95 @@
+/* guess board */
+.guess-board {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 20px;
+}
+
+.guess-row {
+  display: flex;
+  flex-direction: row;
+  gap: 10px
+}
+
+.guess-tile {
+  background-color: gray;
+  width: 50px;
+  height: 70px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.guess-tile.incorrect {
+  background-color: #86888a;
+}
+
+.guess-tile.correct-letter {
+  background-color: #c9b458;
+
+}
+
+.guess-tile.correct-placement {
+  background-color: #6aaa64;
+}
+
+/* keyboard */
+.keyboard-key {
+  background-color: lightgray;
+  border: none;
+  border-radius: 5px;
+  min-width: 40px;
+  min-height: 60px;
+}
+
+.keyboard-key:active {
+  opacity: 0.7;
+}
+
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.keyboard>.row:nth-child(2) {
+  padding-left: 15px;
+}
+
+.keyboard>.row:nth-child(3) {
+  padding-left: 50px;
+}
+
+.keyboard>.row {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+/* error message */
+.game-message {
+  height: 1em;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: black;
+  color: white;
+  opacity: 0;
+}
+
+.game-message.show {
+  animation: disappear 5s forwards;
+}
+
+@keyframes disappear {
+  0%   {opacity: 1;}
+  80%  {opacity: 1;}
+  100% {opacity: 0;}
+}
