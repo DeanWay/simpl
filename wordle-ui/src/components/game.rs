@@ -1,17 +1,22 @@
-use yew::prelude::*;
-
 use crate::components::guess_board::GuessBoard;
 use crate::components::keyboard::Keyboard;
 use crate::dictionary::DICTIONARY;
+use gloo_events::EventListener;
+use gloo_utils::window;
+use wasm_bindgen::JsCast;
+use wasm_bindgen::UnwrapThrowExt;
+
 use wordle_solver::game::WordleGame;
 use wordle_solver::types::{GameCondition, Guesses};
-
+use yew::events::KeyboardEvent;
+use yew::prelude::*;
 const MAX_GUESSES: usize = 6;
 const MAX_WORD_LENGTH: usize = 5;
 
 pub struct App {
     current_guess: String,
     game: WordleGame,
+    key_listener: Option<EventListener>,
 }
 
 pub enum AppMessage {
@@ -22,7 +27,7 @@ pub enum AppMessage {
 
 impl App {
     fn handle_submit(&mut self) -> Result<(), &str> {
-        self.game.make_guess(&self.current_guess)?;
+        self.game.make_guess(&self.current_guess.to_lowercase())?;
         self.current_guess = String::new();
         Ok(())
     }
@@ -60,6 +65,7 @@ impl Component for App {
         App {
             current_guess: String::from(""),
             game: WordleGame::new_with_random_secret_word(DICTIONARY),
+            key_listener: None,
         }
     }
 
@@ -81,22 +87,6 @@ impl Component for App {
     fn view(&self, ctx: &Context<Self>) -> Html {
         let guesses: Guesses = self.game.game_state().guesses.clone();
 
-        // let on_physical_key_press = {
-        //     // let guesses = guesses.clone();
-        //     let on_delete = on_delete.clone();
-        //     let on_submit = on_submit.clone();
-        //     let on_key_press = on_virtual_key_press.clone();
-        //     Callback::from(move |e: KeyboardEvent| {
-        //         log::info!("{:?}", e);
-        //         log::info!("{:?}", e.key_code());
-        //         match e.key_code() {
-        //             8 => on_delete.emit(' '),
-        //             13 => on_submit.emit(' '),
-        //             c => on_key_press.emit((c as u8) as char),
-        //         }
-        //     })
-        // };
-
         html! {
             <div>
                 <GuessBoard
@@ -111,6 +101,30 @@ impl Component for App {
                     on_submit={ctx.link().callback(|_| AppMessage::Submit)}
                 />
             </div>
+        }
+    }
+
+    fn rendered(&mut self, ctx: &Context<Self>, first_render: bool) {
+        if !first_render {
+            return;
+        }
+
+        let onkeydown = ctx.link().callback(|e: KeyboardEvent| match e.key_code() {
+            8 => AppMessage::DeleteLetter,
+            13 => AppMessage::Submit,
+            c => AppMessage::AddLetter((c as u8) as char),
+        });
+        let listener = EventListener::new(&window(), "keydown", move |event| {
+            let event = event.dyn_ref::<web_sys::KeyboardEvent>().unwrap_throw();
+            onkeydown.emit(event.clone())
+        });
+        self.key_listener.replace(listener);
+    }
+
+    fn destroy(&mut self, _ctx: &Context<Self>) {
+        if let Some(listener) = &mut self.key_listener {
+            drop(listener);
+            self.key_listener = None;
         }
     }
 }

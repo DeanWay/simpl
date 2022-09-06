@@ -11,3 +11,8 @@ wasm-logger = "0.2.0"
 yew = "0.19"
 wordle-solver = {path = "../wordle-solver"}
 getrandom = { version = "0.2", features = ["js"] }
+web-sys = "0.3.59"
+gloo = "0.8.0"
+gloo-events = "0.1.2"
+gloo-utils = "0.1.5"
+wasm-bindgen = "0.2.82"
