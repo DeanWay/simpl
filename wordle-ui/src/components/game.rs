@@ -117,6 +117,7 @@ impl Component for App {
                     current_guess={self.current_guess.clone()}
                 />
                 <Keyboard
+                    letter_states={self.game.letter_states()}
                     on_key_press={ctx.link().callback(|c| AppMessage::AddLetter(c))}
                     on_delete={ctx.link().callback(|_| AppMessage::DeleteLetter)}
                     on_submit={ctx.link().callback(|_| AppMessage::Submit)}

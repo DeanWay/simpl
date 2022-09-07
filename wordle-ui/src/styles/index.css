@@ -1,3 +1,14 @@
+:root {
+  --yellow: #c9b458;
+  --green: #6aaa64;
+  --lightgray: lightgray;
+  --darkgray: #86888a;
+
+  --incorrect-color: var(--darkgray);
+  --correct-placement-color: var(--green);
+  --correct-letter-color: var(--yellow);
+  --neutral-color: var(--lightgray)
+}
 /* guess board */
 .guess-board {
   display: flex;
@@ -13,7 +24,7 @@
 }
 
 .guess-tile {
-  background-color: gray;
+  background-color: var(--lightgray);
   width: 50px;
   height: 70px;
   border-radius: 5px;
@@ -25,16 +36,16 @@
 }
 
 .guess-tile.incorrect {
-  background-color: #86888a;
+  background-color: var(--incorrect-color);
 }
 
 .guess-tile.correct-letter {
-  background-color: #c9b458;
+  background-color: var(--correct-letter-color);
 
 }
 
 .guess-tile.correct-placement {
-  background-color: #6aaa64;
+  background-color: var(--correct-placement-color);
 }
 
 /* keyboard */
@@ -49,6 +60,20 @@
 .keyboard-key:active {
   opacity: 0.7;
 }
+
+.keyboard-key.incorrect {
+  background-color: var(--incorrect-color);
+}
+
+.keyboard-key.correct-letter {
+  background-color: var(--correct-letter-color);
+
+}
+
+.keyboard-key.correct-placement {
+  background-color: var(--correct-placement-color);
+}
+
 
 .keyboard {
   display: flex;

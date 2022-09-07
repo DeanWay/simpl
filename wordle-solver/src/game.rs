@@ -1,6 +1,6 @@
 use crate::types::{GameCondition, Guess, Guesses, LetterState, WordleGameState};
 use rand::seq::SliceRandom;
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 pub struct WordleGame {
     dictionary: HashSet<String>,
@@ -74,6 +74,27 @@ impl WordleGame {
             .iter()
             .map(|guess| guess.iter().map(|(c, _)| c).collect::<String>())
             .collect()
+    }
+
+    pub fn letter_states(&self) -> HashMap<char, LetterState> {
+        let flat_guesses = self.guesses.iter().flatten();
+        let mut result = HashMap::new();
+        for (c, state) in flat_guesses.clone() {
+            if *state == LetterState::CorrectPlacement {
+                result.insert(c.clone(), state.clone());
+            }
+        }
+        for (c, state) in flat_guesses.clone() {
+            if *state == LetterState::CorrectLetter && !result.contains_key(c) {
+                result.insert(c.clone(), state.clone());
+            }
+        }
+        for (c, state) in flat_guesses.clone() {
+            if *state == LetterState::Incorrect && !result.contains_key(c) {
+                result.insert(c.clone(), state.clone());
+            }
+        }
+        result
     }
 
     fn check_guess(guess: &str, secret_word: &str) -> Guess {

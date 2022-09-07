@@ -1,4 +1,5 @@
-use wordle_solver::types::{Guess, Guesses, LetterState};
+use super::util::letter_state_class;
+use wordle_solver::types::{Guess, Guesses};
 use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -59,15 +60,6 @@ pub fn guess_row(GuessRowProps { guess }: &GuessRowProps) -> Html {
                 ).collect::<Html>()
             }
         </div>
-    }
-}
-
-fn letter_state_class(state: &LetterState) -> &'static str {
-    use LetterState::*;
-    match state {
-        Incorrect => "incorrect",
-        CorrectLetter => "correct-letter",
-        CorrectPlacement => "correct-placement",
     }
 }
 
