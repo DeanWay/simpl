@@ -56,7 +56,7 @@ pub fn keyboard(
                 <Key letter='b' state={state('b')} on_key_press={on_key_press.clone()}/>
                 <Key letter='n' state={state('n')} on_key_press={on_key_press.clone()}/>
                 <Key letter='m' state={state('m')} on_key_press={on_key_press.clone()}/>
-                <Key letter='␡' on_key_press={on_delete.clone()}/>
+                <Key letter='␡' classname="delete" on_key_press={on_delete.clone()}/>
                 <Key letter='🆗' on_key_press={on_submit.clone()}/>
             </div>
         </div>
@@ -66,6 +66,7 @@ pub fn keyboard(
 #[derive(Properties, PartialEq)]
 struct KeyProps {
     letter: char,
+    classname: Option<String>,
     state: Option<LetterState>,
     on_key_press: Callback<char>,
 }
@@ -73,6 +74,7 @@ struct KeyProps {
 #[function_component(Key)]
 fn key(
     KeyProps {
+        classname,
         letter,
         state,
         on_key_press,
@@ -83,7 +85,7 @@ fn key(
     let state_class = state.map(|s| letter_state_class(&s));
     html! {
         <button
-            class={classes!("keyboard-key", state_class)}
+            class={classes!("keyboard-key", state_class, classname)}
             onclick={move |_| on_key_press.emit(letter)}
         >
             { letter }

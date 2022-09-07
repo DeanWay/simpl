@@ -103,7 +103,7 @@ impl Component for App {
     fn view(&self, ctx: &Context<Self>) -> Html {
         let guesses: Guesses = self.game.game_state().guesses.clone();
         html! {
-            <div>
+            <div class="game-container">
                 <div
                     key={self.message_key}
                     class={classes!("game-message", self.game_message.as_ref().map(|_| "show"))}

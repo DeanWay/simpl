@@ -1,3 +1,4 @@
+/* global */
 :root {
   --yellow: #c9b458;
   --green: #6aaa64;
@@ -9,6 +10,21 @@
   --correct-letter-color: var(--yellow);
   --neutral-color: var(--lightgray)
 }
+
+html, body {
+  margin: 0;
+}
+
+/* game container */
+.game-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 /* guess board */
 .guess-board {
   display: flex;
@@ -50,11 +66,24 @@
 
 /* keyboard */
 .keyboard-key {
-  background-color: lightgray;
+  background-color: var(--lightgray);
+  color: black;
   border: none;
   border-radius: 5px;
   min-width: 40px;
-  min-height: 60px;
+  height: 58px;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.keyboard-key.delete {
+  font-size: 1.5em;
 }
 
 .keyboard-key:active {
