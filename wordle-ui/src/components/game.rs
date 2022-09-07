@@ -49,8 +49,8 @@ impl App {
 
     fn handle_add_letter(&mut self, c: char) -> bool {
         let current_guess_incomplete = self.current_guess.len() < MAX_WORD_LENGTH;
-        if self.still_playing() && current_guess_incomplete && c.is_alphabetic() {
-            self.current_guess.push(c);
+        if self.still_playing() && current_guess_incomplete && c.is_ascii_alphabetic() {
+            self.current_guess.push(c.to_ascii_lowercase());
             true
         } else {
             false
