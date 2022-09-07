@@ -1,1 +1,8 @@
 Copyright © Dean Way 2022
+
+Acknowledgement
+This implementation is my own, but the original game it represents is not.
+Credit for the original game goes to Josh Wardle and the New York Times.
+This implementation is intended for my own education and exploration
+of the rust programming language, and to show others an example of a web
+application written in rust.
