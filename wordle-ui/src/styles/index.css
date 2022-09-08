@@ -14,14 +14,27 @@
 html, body {
   margin: 0;
   touch-action: manipulation;
+  position: relative;
+  height: 100%;
+  width: 100%;
 }
 
-/* game container */
-.game-container {
+/* app */
+.app-container {
+  position: relative;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
+}
+
+/* game */
+.game-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-direction: column;
 }
@@ -147,4 +160,36 @@ html, body {
   0%   {opacity: 1;}
   80%  {opacity: 1;}
   100% {opacity: 0;}
+}
+
+.show-hints-button {
+  background-color: black;
+  color: white;
+  width: 100%;
+  height: 4em;
+  text-transform: uppercase;
+}
+
+.word-hints-popover {
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: white;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.word-hints-scroll-container {
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

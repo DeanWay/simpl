@@ -1,11 +1,13 @@
-use crate::components::guess_board::GuessBoard;
-use crate::components::keyboard::Keyboard;
+use super::guess_board::GuessBoard;
+use super::keyboard::Keyboard;
+use super::word_hints::WordHintsPopover;
 use crate::dictionary::DICTIONARY;
 use gloo_events::EventListener;
 use gloo_utils::window;
 use wasm_bindgen::JsCast;
 use wasm_bindgen::UnwrapThrowExt;
 
+use wordle_solver::constraint::word_matches;
 use wordle_solver::game::WordleGame;
 use wordle_solver::types::{GameCondition, Guesses};
 use yew::events::KeyboardEvent;
@@ -13,7 +15,7 @@ use yew::prelude::*;
 const MAX_GUESSES: usize = 6;
 const MAX_WORD_LENGTH: usize = 5;
 
-pub struct App {
+pub struct Game {
     current_guess: String,
     game: WordleGame,
     key_listener: Option<EventListener>,
@@ -21,13 +23,13 @@ pub struct App {
     message_key: u8,
 }
 
-pub enum AppMessage {
+pub enum GameMessage {
     AddLetter(char),
     DeleteLetter,
     Submit,
 }
 
-impl App {
+impl Game {
     fn handle_submit(&mut self) -> bool {
         let s = self.game.secret_word().to_string();
         match self.game.make_guess(&self.current_guess.to_lowercase()) {
@@ -76,13 +78,13 @@ impl App {
     }
 }
 
-impl Component for App {
-    type Message = AppMessage;
+impl Component for Game {
+    type Message = GameMessage;
 
     type Properties = ();
 
     fn create(_ctx: &Context<Self>) -> Self {
-        App {
+        Self {
             current_guess: String::from(""),
             game: WordleGame::new_with_random_secret_word(DICTIONARY),
             key_listener: None,
@@ -92,7 +94,7 @@ impl Component for App {
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
-        use AppMessage::*;
+        use GameMessage::*;
         match msg {
             AddLetter(c) => self.handle_add_letter(c),
             DeleteLetter => self.handle_delete(),
@@ -102,6 +104,12 @@ impl Component for App {
 
     fn view(&self, ctx: &Context<Self>) -> Html {
         let guesses: Guesses = self.game.game_state().guesses.clone();
+        let remaining_words: Vec<String> = DICTIONARY
+            .iter()
+            .filter(|word| word_matches(word, &self.game.game_state()))
+            .map(|word| word.to_string())
+            .collect();
+        log::info!("{:?}", remaining_words);
         html! {
             <div class="game-container">
                 <div
@@ -118,10 +126,11 @@ impl Component for App {
                 />
                 <Keyboard
                     letter_states={self.game.letter_states()}
-                    on_key_press={ctx.link().callback(|c| AppMessage::AddLetter(c))}
-                    on_delete={ctx.link().callback(|_| AppMessage::DeleteLetter)}
-                    on_submit={ctx.link().callback(|_| AppMessage::Submit)}
+                    on_key_press={ctx.link().callback(|c| GameMessage::AddLetter(c))}
+                    on_delete={ctx.link().callback(|_| GameMessage::DeleteLetter)}
+                    on_submit={ctx.link().callback(|_| GameMessage::Submit)}
                 />
+                <WordHintsPopover remaining_words={remaining_words}/>
             </div>
         }
     }
@@ -132,9 +141,9 @@ impl Component for App {
         }
 
         let onkeydown = ctx.link().callback(|e: KeyboardEvent| match e.key_code() {
-            8 => AppMessage::DeleteLetter,
-            13 => AppMessage::Submit,
-            c => AppMessage::AddLetter((c as u8) as char),
+            8 => GameMessage::DeleteLetter,
+            13 => GameMessage::Submit,
+            c => GameMessage::AddLetter((c as u8) as char),
         });
         let listener = EventListener::new(&window(), "keydown", move |event| {
             let event = event.dyn_ref::<web_sys::KeyboardEvent>().unwrap_throw();
