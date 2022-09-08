@@ -12,14 +12,14 @@ pub fn word_matches(word: &str, game_state: &WordleGameState) -> bool {
 
 pub fn word_satisfies_contraint(word: &str, guess_result: &Guess) -> bool {
     let word_letter_counts = util::unique_element_counts(word.chars());
-
-    // word should have at least all the correct letters
     let guess_correct_letter_counts = util::unique_element_counts(
         guess_result
             .iter()
             .filter(|(_, res)| *res == CorrectLetter || *res == CorrectPlacement)
             .map(|(c, _)| *c),
     );
+
+    // word should have at least all the correct letters
     let all_correct_letters_appear_in_word =
         guess_correct_letter_counts
             .iter()
