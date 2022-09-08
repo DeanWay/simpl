@@ -31,7 +31,7 @@ pub fn guess_board(
             />
         }
     });
-    let rows_occupied = guesses.len() + 1; // leave 1 for the "current guess" row
+    let rows_occupied = guesses.len() + 1; // 1 for the "current guess" row
     let placeholder_rows = (rows_occupied..row_limit)
         .map(|_| html! {<PlaceholderRow max_length={*max_word_length} />});
 
