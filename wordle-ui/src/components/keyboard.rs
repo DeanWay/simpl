@@ -49,6 +49,7 @@ pub fn keyboard(
                 <Key letter='l' state={state('l')} on_key_press={on_key_press.clone()}/>
             </div>
             <div class="row">
+                <Key letter='🆗' on_key_press={on_submit.clone()}/>
                 <Key letter='z' state={state('z')} on_key_press={on_key_press.clone()}/>
                 <Key letter='x' state={state('x')} on_key_press={on_key_press.clone()}/>
                 <Key letter='c' state={state('c')} on_key_press={on_key_press.clone()}/>
@@ -57,7 +58,6 @@ pub fn keyboard(
                 <Key letter='n' state={state('n')} on_key_press={on_key_press.clone()}/>
                 <Key letter='m' state={state('m')} on_key_press={on_key_press.clone()}/>
                 <Key letter='␡' classname="delete" on_key_press={on_delete.clone()}/>
-                <Key letter='🆗' on_key_press={on_submit.clone()}/>
             </div>
         </div>
     }
