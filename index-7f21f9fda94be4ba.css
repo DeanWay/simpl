@@ -1,0 +1,238 @@
+/* global */
+:root {
+  --yellow: #c9b458;
+  --green: #6aaa64;
+  --lightgray: lightgray;
+  --darkgray: #86888a;
+
+  --incorrect-color: var(--darkgray);
+  --correct-placement-color: var(--green);
+  --correct-letter-color: var(--yellow);
+  --neutral-color: var(--lightgray)
+}
+
+html, body {
+  margin: 0;
+  touch-action: manipulation;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+button:active {
+  opacity: 0.7;
+}
+
+/* app */
+.app-container {
+  position: relative;
+  min-height: 100vh;
+  min-height: -moz-available;
+  min-height: -webkit-fill-available;
+  width: 100vw;
+  height: 100%;
+}
+
+/* game */
+.game-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* guess board */
+.guess-board {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 20px;
+}
+
+.guess-row {
+  display: flex;
+  flex-direction: row;
+  gap: 10px
+}
+
+.guess-tile {
+  background-color: white;
+  border-style: solid;
+  border-color: var(--darkgray);
+  border-width: 3px;
+  width: 7vh;
+  height: 7vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.guess-tile.incorrect {
+  background-color: var(--incorrect-color);
+}
+
+.guess-tile.correct-letter {
+  background-color: var(--correct-letter-color);
+
+}
+
+.guess-tile.correct-placement {
+  background-color: var(--correct-placement-color);
+}
+
+.guess-tile.incorrect,
+.guess-tile.correct-letter,
+.guess-tile.correct-placement {
+  color: white;
+  border-width: 0px;
+  margin: 3px;
+}
+
+/* keyboard */
+.keyboard-key {
+  background-color: var(--lightgray);
+  color: black;
+  border: none;
+  border-radius: 5px;
+  width: 30px;
+  height: 40px;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.keyboard-key.delete {
+  font-size: 1.2em;
+  width: 40px;
+}
+
+.keyboard-key.submit {
+  font-size: .5em;
+  width: 50px;
+}
+
+.keyboard-key.incorrect {
+  background-color: var(--incorrect-color);
+}
+
+.keyboard-key.correct-letter {
+  background-color: var(--correct-letter-color);
+
+}
+
+.keyboard-key.correct-placement {
+  background-color: var(--correct-placement-color);
+}
+
+
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.keyboard>.row:nth-child(2) {
+  padding-left: 15px;
+}
+
+.keyboard>.row:nth-child(3) {
+  padding-left: 0px;
+}
+
+.keyboard>.row {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+/* error message */
+.game-message {
+  height: 1em;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: black;
+  color: white;
+  opacity: 0;
+}
+
+.game-message.show {
+  animation: disappear 5s forwards;
+}
+
+@keyframes disappear {
+  0%   {opacity: 1;}
+  80%  {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+.show-hints-button {
+  background-color: black;
+  color: white;
+  width: 100%;
+  min-height: 5vh;
+  text-transform: uppercase;
+  z-index: 3;
+  border: none;
+}
+
+.word-hints-popover {
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: white;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.word-hints-scroll-container {
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: slide-up .3s;
+}
+
+@keyframes slide-up {
+  from {
+    margin-top: 50%;
+  }
+  to {
+    margin-top: 0%;
+  }
+}
+
+.new-game-button {
+  background-color: var(--green);
+  color: white;
+  width: 100%;
+  min-height: 5vh;
+  text-transform: uppercase;
+  z-index: 3;
+  border: none;
+}
