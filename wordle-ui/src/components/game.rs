@@ -7,9 +7,9 @@ use gloo_utils::window;
 use wasm_bindgen::JsCast;
 use wasm_bindgen::UnwrapThrowExt;
 
-use wordle_solver::constraint::word_matches;
-use wordle_solver::game::WordleGame;
-use wordle_solver::types::{GameCondition, Guesses};
+use wordle_game::constraint::word_matches;
+use wordle_game::game::WordleGame;
+use wordle_game::types::{GameCondition, Guesses};
 use yew::events::KeyboardEvent;
 use yew::prelude::*;
 const MAX_GUESSES: usize = 6;

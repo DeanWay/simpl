@@ -1,4 +1,4 @@
-use wordle_solver::types::LetterState;
+use wordle_game::types::LetterState;
 
 pub fn letter_state_class(state: &LetterState) -> &'static str {
     use LetterState::*;

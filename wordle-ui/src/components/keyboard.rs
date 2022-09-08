@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use wordle_solver::types::LetterState;
+use wordle_game::types::LetterState;
 use yew::prelude::*;
 
 use super::util::letter_state_class;

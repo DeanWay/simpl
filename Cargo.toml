@@ -1,2 +1,2 @@
 [workspace]
-members = ["wordle-ui", "wordle-solver"]
+members = ["wordle-ui", "wordle-game"]

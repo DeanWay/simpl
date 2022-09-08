@@ -1,5 +1,5 @@
 use super::util::letter_state_class;
-use wordle_solver::types::{Guess, Guesses};
+use wordle_game::types::{Guess, Guesses};
 use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
