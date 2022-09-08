@@ -20,6 +20,7 @@ pub fn word_hints_popover(props: &WordHintsProps) -> Html {
 
     if *is_open {
         html! {
+            <>
             <div class="word-hints-popover">
                 <WordHints remaining_words={props.remaining_words.clone()}/>
                 <button
@@ -29,6 +30,8 @@ pub fn word_hints_popover(props: &WordHintsProps) -> Html {
                     {"Hide Hints"}
                 </button>
             </div>
+            <div class="button-placeholder"></div>
+            </>
         }
     } else {
         html! {
