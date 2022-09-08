@@ -138,6 +138,11 @@ button:active {
   background-color: var(--correct-placement-color);
 }
 
+.keyboard-key.incorrect,
+.keyboard-keycorrect-letter,
+.keyboard-key.correct-placement {
+  color: white;
+}
 
 .keyboard {
   display: flex;
