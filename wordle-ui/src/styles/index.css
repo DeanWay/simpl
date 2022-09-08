@@ -28,6 +28,7 @@ button:active {
 .app-container {
   position: relative;
   min-height: 100vh;
+  min-height: -moz-available;
   min-height: -webkit-fill-available;
   width: 100vw;
   height: 100%;
