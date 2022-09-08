@@ -49,7 +49,7 @@ pub fn keyboard(
                 <Key letter='l' state={state('l')} on_key_press={on_key_press.clone()}/>
             </div>
             <div class="row">
-                <Key letter='🆗' on_key_press={on_submit.clone()}/>
+                <SubmitKey on_submit={on_submit.clone()}/>
                 <Key letter='z' state={state('z')} on_key_press={on_key_press.clone()}/>
                 <Key letter='x' state={state('x')} on_key_press={on_key_press.clone()}/>
                 <Key letter='c' state={state('c')} on_key_press={on_key_press.clone()}/>
@@ -57,7 +57,7 @@ pub fn keyboard(
                 <Key letter='b' state={state('b')} on_key_press={on_key_press.clone()}/>
                 <Key letter='n' state={state('n')} on_key_press={on_key_press.clone()}/>
                 <Key letter='m' state={state('m')} on_key_press={on_key_press.clone()}/>
-                <Key letter='␡' classname="delete" on_key_press={on_delete.clone()}/>
+                <DeleteKey on_delete={on_delete.clone()}/>
             </div>
         </div>
     }
@@ -89,6 +89,42 @@ fn key(
             onclick={move |_| on_key_press.emit(letter)}
         >
             { letter }
+        </button>
+    }
+}
+
+#[derive(Properties, PartialEq)]
+struct DeleteKeyProps {
+    on_delete: Callback<char>,
+}
+
+#[function_component(DeleteKey)]
+fn delete_key(props: &DeleteKeyProps) -> Html {
+    let on_delete = props.on_delete.clone();
+    html! {
+        <button
+            class={classes!("keyboard-key", "delete")}
+            onclick={move |_| on_delete.emit(' ')}
+        >
+            { "⌫" }
+        </button>
+    }
+}
+
+#[derive(Properties, PartialEq)]
+struct SubmitKeyProps {
+    on_submit: Callback<char>,
+}
+
+#[function_component(SubmitKey)]
+fn submit_key(props: &SubmitKeyProps) -> Html {
+    let on_delete = props.on_submit.clone();
+    html! {
+        <button
+            class={classes!("keyboard-key", "submit")}
+            onclick={move |_| on_delete.emit(' ')}
+        >
+            { "ENTER" }
         </button>
     }
 }

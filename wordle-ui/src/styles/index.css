@@ -100,6 +100,9 @@ button:active {
   text-transform: uppercase;
   font-weight: bold;
   cursor: pointer;
+  text-align: center;
+  margin: 0;
+  padding: 0;
 
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -108,7 +111,13 @@ button:active {
 }
 
 .keyboard-key.delete {
-  font-size: 1.5em;
+  font-size: 1.2em;
+  width: 40px;
+}
+
+.keyboard-key.submit {
+  font-size: .5em;
+  width: 50px;
 }
 
 .keyboard-key.incorrect {
@@ -136,7 +145,7 @@ button:active {
 }
 
 .keyboard>.row:nth-child(3) {
-  padding-left: 30px;
+  padding-left: 0px;
 }
 
 .keyboard>.row {
