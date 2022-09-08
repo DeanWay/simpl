@@ -36,7 +36,11 @@ pub fn word_satisfies_contraint(word: &str, guess_result: &Guess) -> bool {
     for (c, res) in guess_result {
         if *res == Incorrect {
             match guess_correct_letter_counts.get(c) {
-                None => continue,
+                None => {
+                    if word_letter_counts.get(c).is_some() {
+                        return false;
+                    }
+                }
                 Some(count) => {
                     if word_letter_counts.get(c).unwrap() != count {
                         return false;
@@ -113,5 +117,20 @@ mod test_word_satisfies_contraint {
             ],
         );
         assert!(res);
+    }
+
+    #[test]
+    fn does_not_match_one_incorrect() {
+        let res = word_satisfies_contraint(
+            "arise",
+            &vec![
+                ('r', Incorrect),
+                ('a', Incorrect),
+                ('i', CorrectPlacement),
+                ('s', CorrectPlacement),
+                ('e', CorrectPlacement),
+            ],
+        );
+        assert_eq!(res, false);
     }
 }
