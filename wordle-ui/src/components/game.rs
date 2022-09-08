@@ -27,6 +27,7 @@ pub enum GameMessage {
     AddLetter(char),
     DeleteLetter,
     Submit,
+    NewGame,
 }
 
 impl Game {
@@ -68,6 +69,11 @@ impl Game {
         }
     }
 
+    fn handle_new_game(&mut self) -> bool {
+        self.game = WordleGame::new_with_random_secret_word(PICKABLE_WORDS);
+        true
+    }
+
     fn still_playing(&self) -> bool {
         self.game.game_condition() == GameCondition::Playing
     }
@@ -99,6 +105,7 @@ impl Component for Game {
             AddLetter(c) => self.handle_add_letter(c),
             DeleteLetter => self.handle_delete(),
             Submit => self.handle_submit(),
+            NewGame => self.handle_new_game(),
         }
     }
 
@@ -130,7 +137,23 @@ impl Component for Game {
                     on_delete={ctx.link().callback(|_| GameMessage::DeleteLetter)}
                     on_submit={ctx.link().callback(|_| GameMessage::Submit)}
                 />
-                <WordHintsPopover remaining_words={remaining_words}/>
+
+                {
+                    if self.game.game_condition() == GameCondition::Playing {
+                        html!{
+                            <WordHintsPopover remaining_words={remaining_words}/>
+                        }
+                    } else {
+                        html!{
+                            <button
+                                class="new-game-button"
+                                onclick={ctx.link().callback(|_| GameMessage::NewGame)}
+                            >
+                                {"new game"}
+                            </button>
+                        }
+                    }
+                }
             </div>
         }
     }
