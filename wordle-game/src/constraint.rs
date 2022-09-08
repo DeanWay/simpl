@@ -20,14 +20,14 @@ pub fn word_satisfies_contraint(word: &str, guess_result: &Guess) -> bool {
             .filter(|(_, res)| *res == CorrectLetter || *res == CorrectPlacement)
             .map(|(c, _)| *c),
     );
-    let all_correct_letters_appear_word =
+    let all_correct_letters_appear_in_word =
         guess_correct_letter_counts
             .iter()
             .all(|(c, correct_count)| {
                 let word_c_count = word_letter_counts.get(c).unwrap_or(&0);
                 word_c_count >= correct_count
             });
-    if !all_correct_letters_appear_word {
+    if !all_correct_letters_appear_in_word {
         return false;
     }
 
