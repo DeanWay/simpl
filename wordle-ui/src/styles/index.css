@@ -17,6 +17,7 @@ html, body {
   position: relative;
   height: 100%;
   width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 
 button:active {
@@ -59,7 +60,7 @@ button:active {
 
 .guess-tile {
   background-color: var(--lightgray);
-  width: 5vh;
+  width: 7vh;
   height: 7vh;
   border-radius: 5px;
   display: flex;
@@ -80,6 +81,12 @@ button:active {
 
 .guess-tile.correct-placement {
   background-color: var(--correct-placement-color);
+}
+
+.guess-tile.incorrect,
+.guess-tile.correct-letter,
+.guess-tile.correct-placement {
+  color: white
 }
 
 /* keyboard */
