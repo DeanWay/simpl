@@ -19,8 +19,11 @@ pub fn guess_board(
         current_guess,
     }: &GuessBoardProps,
 ) -> Html {
-    let row_occupied = guesses.len() + 1;
-    let current_row = (guesses.len() < *max_guesses).then(|| {
+    let row_limit = *max_guesses;
+    let guess_rows = guesses.iter().map(|guess| {
+        html! { <GuessRow guess={guess.clone()} /> }
+    });
+    let current_row = (guesses.len() < row_limit).then(|| {
         html! {
             <CurrentGuessRow
                 max_length={*max_word_length}
@@ -28,11 +31,10 @@ pub fn guess_board(
             />
         }
     });
-    let placeholder_rows = (row_occupied..*max_guesses)
+    let rows_occupied = guesses.len() + 1; // leave 1 for the "current guess" row
+    let placeholder_rows = (rows_occupied..row_limit)
         .map(|_| html! {<PlaceholderRow max_length={*max_word_length} />});
-    let guess_rows = guesses.iter().map(|guess| {
-        html! { <GuessRow guess={guess.clone()} /> }
-    });
+
     html! {
         <div class="guess-board">
             {
