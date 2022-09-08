@@ -20,33 +20,27 @@ pub fn word_satisfies_contraint(word: &str, guess_result: &Guess) -> bool {
             .filter(|(_, res)| *res == CorrectLetter || *res == CorrectPlacement)
             .map(|(c, _)| *c),
     );
-
-    if !guess_correct_letter_counts
-        .iter()
-        .all(|(c, count)| match word_letter_counts.get(c) {
-            None => false,
-            Some(word_c_count) => word_c_count >= count,
-        })
-    {
+    let all_correct_letters_appear_word =
+        guess_correct_letter_counts
+            .iter()
+            .all(|(c, correct_count)| {
+                let word_c_count = word_letter_counts.get(c).unwrap_or(&0);
+                word_c_count >= correct_count
+            });
+    if !all_correct_letters_appear_word {
         return false;
     }
 
-    // word should not have more than known max letters
-    // (in the case we have a correct and incorrect for the same letter we know the max)
+    // word should not have more than any known maximum for particular letters.
+    // in the case we an incorrect letter we know that the max is the number of
+    // correct letters of the same value in the guess
     for (c, res) in guess_result {
         if *res == Incorrect {
-            match guess_correct_letter_counts.get(c) {
-                None => {
-                    if word_letter_counts.get(c).is_some() {
-                        return false;
-                    }
-                }
-                Some(count) => {
-                    if word_letter_counts.get(c).unwrap() != count {
-                        return false;
-                    }
-                }
-            };
+            let max_for_c = guess_correct_letter_counts.get(c).unwrap_or(&0);
+            let word_c_count = word_letter_counts.get(c).unwrap_or(&0);
+            if word_c_count > max_for_c {
+                return false;
+            }
         }
     }
 
