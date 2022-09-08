@@ -58,7 +58,13 @@ pub fn guess_row(GuessRowProps { guess }: &GuessRowProps) -> Html {
         <div class="guess-row">
             {
                 guess.iter().map(
-                    |(c, state)| html! {<div class={classes!("guess-tile", letter_state_class(state))}>{c}</div>}
+                    |(c, state)| html! {
+                        <div
+                            class={classes!("guess-tile", letter_state_class(state))}
+                        >
+                            {c}
+                        </div>
+                    }
                 ).collect::<Html>()
             }
         </div>
