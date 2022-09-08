@@ -59,10 +59,12 @@ button:active {
 }
 
 .guess-tile {
-  background-color: var(--lightgray);
+  background-color: white;
+  border-style: solid;
+  border-color: var(--darkgray);
+  border-width: 3px;
   width: 7vh;
   height: 7vh;
-  border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -86,7 +88,9 @@ button:active {
 .guess-tile.incorrect,
 .guess-tile.correct-letter,
 .guess-tile.correct-placement {
-  color: white
+  color: white;
+  border-width: 0px;
+  margin: 3px;
 }
 
 /* keyboard */
