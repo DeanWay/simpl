@@ -1,11 +1,11 @@
 use super::guess_board::GuessBoard;
 use super::keyboard::Keyboard;
 use super::word_hints::WordHintsPopover;
-use crate::dictionary::DICTIONARY;
 use gloo_events::EventListener;
 use gloo_utils::window;
 use wasm_bindgen::JsCast;
 use wasm_bindgen::UnwrapThrowExt;
+use wordle_game::dictionary::PICKABLE_WORDS;
 
 use wordle_game::constraint::word_matches;
 use wordle_game::game::WordleGame;
@@ -86,7 +86,7 @@ impl Component for Game {
     fn create(_ctx: &Context<Self>) -> Self {
         Self {
             current_guess: String::from(""),
-            game: WordleGame::new_with_random_secret_word(DICTIONARY),
+            game: WordleGame::new_with_random_secret_word(PICKABLE_WORDS),
             key_listener: None,
             game_message: None,
             message_key: 0,
@@ -104,7 +104,7 @@ impl Component for Game {
 
     fn view(&self, ctx: &Context<Self>) -> Html {
         let guesses: Guesses = self.game.game_state().guesses.clone();
-        let remaining_words: Vec<String> = DICTIONARY
+        let remaining_words: Vec<String> = PICKABLE_WORDS
             .iter()
             .filter(|word| word_matches(word, &self.game.game_state()))
             .map(|word| word.to_string())
@@ -126,7 +126,7 @@ impl Component for Game {
                 />
                 <Keyboard
                     letter_states={self.game.letter_states()}
-                    on_key_press={ctx.link().callback(|c| GameMessage::AddLetter(c))}
+                    on_key_press={ctx.link().callback(GameMessage::AddLetter)}
                     on_delete={ctx.link().callback(|_| GameMessage::DeleteLetter)}
                     on_submit={ctx.link().callback(|_| GameMessage::Submit)}
                 />
@@ -153,8 +153,7 @@ impl Component for Game {
     }
 
     fn destroy(&mut self, _ctx: &Context<Self>) {
-        if let Some(listener) = &mut self.key_listener {
-            drop(listener);
+        if self.key_listener.is_some() {
             self.key_listener = None;
         }
     }

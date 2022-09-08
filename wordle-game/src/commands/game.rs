@@ -1,11 +1,10 @@
+use crate::dictionary::PICKABLE_WORDS;
 use crate::game::WordleGame;
 use crate::types::{GameCondition, Guess, LetterState};
 use std::io::{self, Write};
 
 pub fn run_cli_game() {
-    let dictionary = crate::io::read_dictionary_from_file("assets/dictionary.json")
-        .expect("unable to read dictionary file");
-    let dictionary: Vec<&str> = dictionary.iter().map(String::as_str).collect();
+    let dictionary: Vec<&str> = PICKABLE_WORDS.to_vec();
     let mut game = WordleGame::new_with_random_secret_word(&dictionary);
     loop {
         print!("Make guess: ");

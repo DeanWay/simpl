@@ -1,13 +1,6 @@
 use clap::Command;
 use std::error::Error;
-mod commands;
-mod constraint;
-mod game;
-mod io;
-mod solver;
-mod solver_strategy;
-mod types;
-mod util;
+use wordle_game::commands;
 
 fn cli() -> Command<'static> {
     Command::new("wordle-solver")

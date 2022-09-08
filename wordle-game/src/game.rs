@@ -1,12 +1,17 @@
+use crate::dictionary::VALID_WORDS;
 use crate::types::{GameCondition, Guess, Guesses, LetterState, WordleGameState};
 use rand::seq::SliceRandom;
-use std::collections::{HashMap, HashSet};
+use std::{
+    collections::{HashMap, HashSet},
+    iter::FromIterator,
+};
 
 pub struct WordleGame {
     dictionary: HashSet<String>,
     guesses: Guesses,
     secret_word: String,
     max_guesses: usize,
+    valid_guess_words: HashSet<String>,
 }
 
 impl WordleGame {
@@ -14,22 +19,24 @@ impl WordleGame {
         let dictionary_set = HashSet::from_iter(dictionary.iter().map(|s| s.to_string()));
         let secret_word = secret_word.to_owned();
         assert!(dictionary_set.contains(&secret_word));
+        let valid_guess_words = HashSet::from_iter(VALID_WORDS.iter().map(|s| s.to_string()));
 
         Self {
             dictionary: dictionary_set,
             guesses: vec![],
             secret_word,
             max_guesses: 6,
+            valid_guess_words,
         }
     }
 
     pub fn new_with_random_secret_word(dictionary: &[&str]) -> Self {
-        let secret_word = dictionary.choose(&mut rand::thread_rng()).unwrap().clone();
-        Self::new(dictionary, &secret_word)
+        let secret_word = dictionary.choose(&mut rand::thread_rng()).unwrap();
+        Self::new(dictionary, *secret_word)
     }
 
     pub fn make_guess(&mut self, guess: &str) -> Result<(), &'static str> {
-        if !self.dictionary.contains(guess) {
+        if !(self.dictionary.contains(guess) || self.valid_guess_words.contains(guess)) {
             return Err("Invalid word");
         }
         if self.game_condition() != GameCondition::Playing {
@@ -81,17 +88,17 @@ impl WordleGame {
         let mut result = HashMap::new();
         for (c, state) in flat_guesses.clone() {
             if *state == LetterState::CorrectPlacement {
-                result.insert(c.clone(), state.clone());
+                result.insert(*c, *state);
             }
         }
         for (c, state) in flat_guesses.clone() {
             if *state == LetterState::CorrectLetter && !result.contains_key(c) {
-                result.insert(c.clone(), state.clone());
+                result.insert(*c, *state);
             }
         }
         for (c, state) in flat_guesses.clone() {
             if *state == LetterState::Incorrect && !result.contains_key(c) {
-                result.insert(c.clone(), state.clone());
+                result.insert(*c, *state);
             }
         }
         result

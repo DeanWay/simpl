@@ -80,7 +80,7 @@ fn key(
         on_key_press,
     }: &KeyProps,
 ) -> Html {
-    let letter = letter.clone();
+    let letter = *letter;
     let on_key_press = on_key_press.clone();
     let state_class = state.map(|s| letter_state_class(&s));
     html! {

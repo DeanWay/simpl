@@ -1,12 +1,11 @@
+use crate::dictionary::PICKABLE_WORDS;
 use crate::game::WordleGame;
 use crate::solver::WordleSolver;
 use crate::solver_strategy::narrowing_random::NarrowingRandomWordleSolver;
 use crate::types::GameCondition;
 
 pub fn run_solver() {
-    let dictionary = crate::io::read_dictionary_from_file("assets/dictionary.json")
-        .expect("unable to read dictionary file");
-    let dictionary: Vec<&str> = dictionary.iter().map(String::as_str).collect();
+    let dictionary: Vec<&str> = PICKABLE_WORDS.to_vec();
     let mut win_total = 0;
     let games = 10000;
     let mut num_guesses = Vec::<usize>::with_capacity(games);

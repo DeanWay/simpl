@@ -1,5 +1,4 @@
 mod components;
-mod dictionary;
 use components::app::App;
 
 fn main() {
