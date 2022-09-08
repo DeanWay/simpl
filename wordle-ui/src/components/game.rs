@@ -5,9 +5,8 @@ use gloo_events::EventListener;
 use gloo_utils::window;
 use wasm_bindgen::JsCast;
 use wasm_bindgen::UnwrapThrowExt;
-use wordle_game::dictionary::PICKABLE_WORDS;
-
 use wordle_game::constraint::word_matches;
+use wordle_game::dictionary::PICKABLE_WORDS;
 use wordle_game::game::WordleGame;
 use wordle_game::types::{GameCondition, Guesses};
 use yew::events::KeyboardEvent;
@@ -70,7 +69,7 @@ impl Game {
     }
 
     fn handle_new_game(&mut self) -> bool {
-        self.game = WordleGame::new_with_random_secret_word(PICKABLE_WORDS);
+        self.game = Self::new_game();
         true
     }
 
@@ -82,6 +81,10 @@ impl Game {
         self.game_message.replace(msg.to_string());
         self.message_key = self.message_key.wrapping_add(1);
     }
+
+    fn new_game() -> WordleGame {
+        WordleGame::new_with_random_secret_word(PICKABLE_WORDS)
+    }
 }
 
 impl Component for Game {
@@ -92,7 +95,7 @@ impl Component for Game {
     fn create(_ctx: &Context<Self>) -> Self {
         Self {
             current_guess: String::from(""),
-            game: WordleGame::new_with_random_secret_word(PICKABLE_WORDS),
+            game: Self::new_game(),
             key_listener: None,
             game_message: None,
             message_key: 0,
