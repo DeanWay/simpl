@@ -32,7 +32,7 @@ pub enum GameMessage {
 impl Game {
     fn handle_submit(&mut self) -> bool {
         let s = self.game.secret_word().to_string();
-        match self.game.make_guess(&self.current_guess.to_lowercase()) {
+        match self.game.make_guess(&self.current_guess) {
             Err(err) => {
                 self.set_message(err);
             }
@@ -119,7 +119,7 @@ impl Component for Game {
             .filter(|word| word_matches(word, &self.game.game_state()))
             .map(|word| word.to_string())
             .collect();
-        log::info!("{:?}", remaining_words);
+
         html! {
             <div class="game-container">
                 <div

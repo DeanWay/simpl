@@ -36,16 +36,17 @@ impl WordleGame {
     }
 
     pub fn make_guess(&mut self, guess: &str) -> Result<(), &'static str> {
-        if !(self.dictionary.contains(guess) || self.valid_guess_words.contains(guess)) {
+        let guess = guess.to_lowercase();
+        if !(self.dictionary.contains(&guess) || self.valid_guess_words.contains(&guess)) {
             return Err("Invalid word");
         }
         if self.game_condition() != GameCondition::Playing {
             return Err("game is over");
         }
-        if self.words_already_guessed().contains(&guess.to_string()) {
+        if self.words_already_guessed().contains(&guess) {
             return Err("Already guessed");
         }
-        let guess_result = Self::check_guess(guess, &self.secret_word);
+        let guess_result = Self::check_guess(&guess, &self.secret_word);
         self.guesses.push(guess_result);
         Ok(())
     }
