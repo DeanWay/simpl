@@ -2,10 +2,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="stylesheet" href="/simpl/index-33e613f0d640760c.css">
 
-<link rel="preload" href="/simpl/wordle-ui-cc29b57dd457dc79_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
-<link rel="modulepreload" href="/simpl/wordle-ui-cc29b57dd457dc79.js"></head>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.4/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.4/firebase-analytics.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDEEIq-y8H4uxSlnH8Eqlf0Y6T5yEtg3mc",
+      authDomain: "simpl-ee765.firebaseapp.com",
+      projectId: "simpl-ee765",
+      storageBucket: "simpl-ee765.appspot.com",
+      messagingSenderId: "44902536640",
+      appId: "1:44902536640:web:4557e19eefc3f7cf5ea425",
+      measurementId: "G-RBMDN2RK8M"
+    };
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+<link rel="preload" href="/simpl/wordle-ui-fe0d300e022b0bd1_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
+<link rel="modulepreload" href="/simpl/wordle-ui-fe0d300e022b0bd1.js"></head>
 
 <body>
 
 
-<script type="module">import init from '/simpl/wordle-ui-cc29b57dd457dc79.js';init('/simpl/wordle-ui-cc29b57dd457dc79_bg.wasm');</script></body></html>
+<script type="module">import init from '/simpl/wordle-ui-fe0d300e022b0bd1.js';init('/simpl/wordle-ui-fe0d300e022b0bd1_bg.wasm');</script></body></html>
