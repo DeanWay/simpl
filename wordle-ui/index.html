@@ -7,6 +7,23 @@
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
   />
   <link rel="css" data-trunk href="src/styles/index.css" />
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.4/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.4/firebase-analytics.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDEEIq-y8H4uxSlnH8Eqlf0Y6T5yEtg3mc",
+      authDomain: "simpl-ee765.firebaseapp.com",
+      projectId: "simpl-ee765",
+      storageBucket: "simpl-ee765.appspot.com",
+      messagingSenderId: "44902536640",
+      appId: "1:44902536640:web:4557e19eefc3f7cf5ea425",
+      measurementId: "G-RBMDN2RK8M"
+    };
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
 </head>
 
 <body></body>
